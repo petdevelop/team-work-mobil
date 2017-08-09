@@ -111,10 +111,13 @@ export class ContactsService {
   }
 
   addContact(data): void {
-    console.log(data);
-    
-    // let itemObservable: FirebaseListObservable<any> = this.db.list('/persons');
-    // itemObservable.push(data);
+    let itemObservable: FirebaseListObservable<any> = this.db.list('/persons');
+    itemObservable.push(data);
+  }
+
+  editContact(data): void {
+    let itemObservable: FirebaseListObservable<any> = this.db.list('/persons');
+    itemObservable.update(data.key, data);
   }
 
 }

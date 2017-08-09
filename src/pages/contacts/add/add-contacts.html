@@ -13,23 +13,24 @@
             <ion-item>
                 <ion-label floating>First Name</ion-label>
                 <ion-input type="text" formControlName="firstName"></ion-input>
+                <ion-input type="hidden" formControlName="key"></ion-input>
             </ion-item>
 
             <ion-item>
                 <ion-label floating>Last Name</ion-label>
-                <ion-input type="password" formControlName="lastName"></ion-input>
+                <ion-input type="text" formControlName="lastName"></ion-input>
             </ion-item>
             
             <ion-item>
                 <ion-label floating>Type</ion-label>
-                <ion-select [(ngModel)]="type" formControlName="type">
-                    <ion-option value="f">Customer</ion-option>
-                    <ion-option value="m">Prospecto</ion-option>
-                    <ion-option value="m">Partner</ion-option>
+                <ion-select formControlName="type">
+                    <ion-option value="customer">Customer</ion-option>
+                    <ion-option value="prospect">Prospect</ion-option>
+                    <ion-option value="partner">Partner</ion-option>
                 </ion-select>
             </ion-item>
         </ion-list>
 
-        <button ion-button color="secondary" type="submit" [disabled]="!form.valid">Add Contact</button>
+        <button ion-button color="secondary" type="submit" [disabled]="acctionType == 'add' && !form.valid">{{acctionType}} Contact</button>
     </form>
 </ion-content>

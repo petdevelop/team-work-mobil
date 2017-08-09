@@ -10,6 +10,11 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
  * on Ionic pages and navigation.
  */
 
+ enum acctionType {
+    Edit,
+    Add
+}
+
 @Component({
   selector: 'add-contacts',
   templateUrl: 'add-contacts.html'
@@ -17,6 +22,7 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 export class AddContactsPage {
 
   private form: FormGroup;
+  private acctionType: string = acctionType[acctionType.Add];
 
   constructor(
       public navCtrl: NavController, 
@@ -25,18 +31,24 @@ export class AddContactsPage {
       private formBuilder: FormBuilder) {
       
       this.form = this.formBuilder.group({
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        type: ['', Validators.required]
+        key: [this.navParams.data.$key],
+        firstName: [this.navParams.data.firstName, Validators.required],
+        lastName: [this.navParams.data.lastName, Validators.required],
+        type: [this.navParams.data.type, Validators.required]
       });
+
+      if (Object.keys(this.navParams.data).length > 0) {
+        this.acctionType = acctionType[acctionType.Edit];
+      }
   }
 
   submitForm(): void {
-    // this.contactsService.addContact();
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ContactsPage');
+    if (this.acctionType == acctionType[acctionType.Edit]) {
+      this.contactsService.editContact(this.form.getRawValue());
+    } else {
+      this.contactsService.addContact(this.form.getRawValue());
+    }
+    this.navCtrl.pop();
   }
 
 }
