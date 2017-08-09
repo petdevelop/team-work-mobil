@@ -13,6 +13,11 @@ export const environment = {
     projectId: "team-work-8c0c0",
     storageBucket: "team-work-8c0c0.appspot.com",
     messagingSenderId: "492728266730"
+  },
+  cloudSettings: {
+    core: {
+      app_id: 'a30030c0'
+    }
   }
 };
 

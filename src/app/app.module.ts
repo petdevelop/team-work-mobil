@@ -5,7 +5,7 @@ import { MyApp } from './app.component';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
-
+import { CloudModule } from '@ionic/cloud-angular';
 
 import { ContactsPageModule } from '../pages/contacts/contacts.module';
 
@@ -31,6 +31,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
+    CloudModule.forRoot(environment.cloudSettings)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
