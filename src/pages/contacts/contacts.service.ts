@@ -120,4 +120,9 @@ export class ContactsService {
     itemObservable.update(data.key, data);
   }
 
+  deleteContact(key: string): void {
+    let itemObservable: FirebaseListObservable<any> = this.db.list('/persons');
+    itemObservable.remove(key);
+  }
+
 }

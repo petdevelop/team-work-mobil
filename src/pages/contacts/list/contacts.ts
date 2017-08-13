@@ -27,8 +27,6 @@ export class ContactsPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ContactsPage');
-
     this.contactsService.getData()
       .subscribe((data) => {
         data.subscribe((data) => {
@@ -38,5 +36,9 @@ export class ContactsPage {
         });
       });
   }
+
+  deleteContact(key: string): void {
+    this.contactsService.deleteContact(key);
+  } 
 
 }
