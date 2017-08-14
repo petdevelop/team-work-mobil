@@ -16,8 +16,13 @@ export const environment = {
   },
   cloudSettings: {
     core: {
-      app_id: 'a30030c0'
+    app_id: 'a30030c0'
     }
+  },
+  dbKeys: {
+     assignmentPaths: '/assignments',
+     resourcePaths: '/resources',
+     personPaths: '/persons'
   }
 };
 

@@ -45,6 +45,8 @@ $colors: (
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here
+$tabs-ios-tab-icon-color-active: map-get($colors, dark);
+$tabs-ios-tab-text-color-active: map-get($colors, dark);
 
 
 

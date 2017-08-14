@@ -7,20 +7,20 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { CloudModule } from '@ionic/cloud-angular';
 
-import { ContactsPageModule } from '../pages/contacts/contacts.module';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { environment } from '../environments/environment';
-import { AboutPage } from '../pages/about/about';
+import { ContactsPageModule } from '../pages/contacts/contacts.module';
+import { ResourcesPageModule } from '../pages/resources/resources.module';
+
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
     MyApp,
-    AboutPage,
     HomePage,
     TabsPage
   ],
@@ -28,6 +28,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     BrowserModule,
     IonicModule.forRoot(MyApp),
     ContactsPageModule,
+    ResourcesPageModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
@@ -36,7 +37,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AboutPage,
     HomePage,
     TabsPage
   ],

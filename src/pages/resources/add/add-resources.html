@@ -11,21 +11,20 @@
     <form [formGroup]="form" (ngSubmit)="submitForm()">
         <ion-list>
             <ion-item>
-                <ion-label floating>First Name</ion-label>
-                <ion-input type="text" formControlName="firstName"></ion-input>
+                <ion-label floating>Name</ion-label>
+                <ion-input type="text" formControlName="name"></ion-input>
             </ion-item>
 
             <ion-item>
-                <ion-label floating>Last Name</ion-label>
-                <ion-input type="text" formControlName="lastName"></ion-input>
+                <ion-label floating>Author</ion-label>
+                <ion-input type="text" formControlName="author"></ion-input>
             </ion-item>
             
             <ion-item>
                 <ion-label floating>Type</ion-label>
                 <ion-select formControlName="type">
-                    <ion-option value="customer">Customer</ion-option>
-                    <ion-option value="prospect">Prospect</ion-option>
-                    <ion-option value="partner">Partner</ion-option>
+                    <ion-option value="disc">Disc</ion-option>
+                    <ion-option value="book">Book</ion-option>
                 </ion-select>
             </ion-item>
         </ion-list>

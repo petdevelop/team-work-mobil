@@ -7,8 +7,7 @@ import 'rxjs/add/observable/of';
 import { environment } from '../../environments/environment';
 
 @Injectable()
-export class ContactsService {
-
+export class ResourcesService {
 
   constructor(private db: AngularFireDatabase) { }
 
@@ -22,15 +21,20 @@ export class ContactsService {
     });
   }
 
+  pickUpResource(assignmentKey: string): void {
+    let itemObservable: FirebaseListObservable<any> = this.db.list(environment.dbKeys.assignmentPaths);
+    itemObservable.update(assignmentKey, {'pickedUp': new Date()});
+  }
+
   getData(): Observable<any> {
     
-    return this.db.list('/persons')
+    return this.db.list(environment.dbKeys.personPaths)
       .map(persons => {
 
-        return this.db.list('/assignments')
+        return this.db.list(environment.dbKeys.assignmentPaths)
           .map(assignments => {
 
-            return this.db.list('/resources')
+            return this.db.list(environment.dbKeys.resourcePaths)
               .map(resources => {
                 // iterate over persons
                 persons.forEach(person => {
@@ -70,19 +74,51 @@ export class ContactsService {
       
   }
 
-  addContact(data): void {
-    let itemObservable: FirebaseListObservable<any> = this.db.list(environment.dbKeys.personPaths);
-    itemObservable.push(data);
+  getAvailableResources(personKey): Observable<any> {
+    return this.db.list(environment.dbKeys.resourcePaths)
+      .map(resources => {
+
+        return this.db.list(environment.dbKeys.assignmentPaths)
+          .map(assignments => {
+            // get the list of unavailable resources
+            let unAvailableResourceKeys: any[] = [];
+            assignments.forEach(element => {
+
+              if (! element.pickedUp) {
+                unAvailableResourceKeys = unAvailableResourceKeys.concat(element.resourceKeys);
+              }
+              
+              resources = resources.filter(e => unAvailableResourceKeys.indexOf(e.$key) == -1);
+              
+              // check if the resource was previously borrowed
+              if (element.personKey == personKey) {
+                resources = resources.map(resource => {
+                  if (element.resourceKeys.filter(e => e == resource.$key).length > 0) {
+                    resource.borrowed = true;
+                  }
+                  return resource;
+                });
+              }
+            });
+
+            return resources;
+          });
+      });
+
   }
 
-  editContact(data): void {
-    let itemObservable: FirebaseListObservable<any> = this.db.list(environment.dbKeys.personPaths);
-    itemObservable.update(data.key, data);
-  }
+  addResource(resource: any): void {
+    let itemObservable: FirebaseListObservable<any> = this.db.list(environment.dbKeys.resourcePaths);
+    itemObservable.push(resource);
+  } 
 
-  deleteContact(key: string): void {
-    let itemObservable: FirebaseListObservable<any> = this.db.list(environment.dbKeys.personPaths);
+  editResource(resource: any): void {
+    let itemObservable: FirebaseListObservable<any> = this.db.list(environment.dbKeys.resourcePaths);
+    itemObservable.update(resource.key, resource);
+  }
+  
+  deleteResource(key: string): void {
+    let itemObservable: FirebaseListObservable<any> = this.db.list(environment.dbKeys.resourcePaths);
     itemObservable.remove(key);
-  }
-
+  } 
 }

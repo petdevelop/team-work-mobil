@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { ContactsService } from '../contacts.service';
+import { ResourcesService } from '../resources.service';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 import { AcctionType } from '../../../common/enum-types';
 
 /**
- * Generated class for the ContactsPage page.
+ * Generated class for the ResourcesPage page.
  *
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
@@ -14,10 +14,10 @@ import { AcctionType } from '../../../common/enum-types';
 
 
 @Component({
-  selector: 'add-contacts',
-  templateUrl: 'add-contacts.html'
+  selector: 'add-resources',
+  templateUrl: 'add-resources.html'
 })
-export class AddContactsPage {
+export class AddResourcesPage {
 
   private form: FormGroup;
   private acctionType: string = AcctionType[AcctionType.Add];
@@ -25,13 +25,13 @@ export class AddContactsPage {
   constructor(
       public navCtrl: NavController, 
       public navParams: NavParams,
-      public contactsService: ContactsService,
+      public ResourcesService: ResourcesService,
       private formBuilder: FormBuilder) {
       
       this.form = this.formBuilder.group({
         key: [this.navParams.data.$key],
-        firstName: [this.navParams.data.firstName, Validators.required],
-        lastName: [this.navParams.data.lastName, Validators.required],
+        name: [this.navParams.data.name, Validators.required],
+        author: [this.navParams.data.author, Validators.required],
         type: [this.navParams.data.type, Validators.required]
       });
 
@@ -42,13 +42,12 @@ export class AddContactsPage {
 
   submitForm(): void {
     if (this.acctionType == AcctionType[AcctionType.Edit]) {
-      this.contactsService.editContact(this.form.getRawValue());
+      this.ResourcesService.editResource(this.form.getRawValue());
       this.navCtrl.pop();
     } else {
-      this.contactsService.addContact(this.form.getRawValue());
+      this.ResourcesService.addResource(this.form.getRawValue());
       this.form.reset();
     }
-
   }
 
 }
