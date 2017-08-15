@@ -85,4 +85,38 @@ export class ContactsService {
     itemObservable.remove(key);
   }
 
+  getContacts(): Observable<object[]> {
+    let persons: object[] = [];
+    this.getData()
+      .subscribe((data) => {
+        data.subscribe((data) => {
+          data.subscribe((data) => {
+            data.persons.forEach(person => {
+              persons.push(person);
+            })
+          });
+        });
+      });
+
+    return Observable.of(persons);
+  }
+  
+  getContact(contactKey: string): Observable<object> {
+    let contact: object = {};
+    this.getData()
+      .subscribe((data) => {
+        data.subscribe((data) => {
+          data.subscribe((data) => {
+            data.persons.forEach(_contact => {
+              if (_contact.$key == contactKey) {
+                Object.assign(contact, _contact);
+              }
+            })
+          });
+        });
+      });
+
+    return Observable.of(contact);
+  }
+
 }
