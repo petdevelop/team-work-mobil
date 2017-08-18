@@ -9,7 +9,6 @@ import { environment } from '../../environments/environment';
 @Injectable()
 export class ContactsService {
 
-
   constructor(private db: AngularFireDatabase) { }
 
   assignResource(popUpResult: any, personKey: string): void {
@@ -23,15 +22,16 @@ export class ContactsService {
   }
 
   getData(): Observable<any> {
-    
-    return this.db.list('/persons')
-      .map(persons => {
+    let data: any = {};
 
-        return this.db.list('/assignments')
-          .map(assignments => {
+    this.db.list(environment.dbKeys.personPaths)
+      .subscribe(persons => {
 
-            return this.db.list('/resources')
-              .map(resources => {
+        this.db.list(environment.dbKeys.assignmentPaths)
+          .subscribe(assignments => {
+
+            this.db.list(environment.dbKeys.resourcePaths)
+              .subscribe(resources => {
                 // iterate over persons
                 persons.forEach(person => {
                   // add to persons the assignments array only for actual data
@@ -52,22 +52,14 @@ export class ContactsService {
                     assignment.resourceKeys.forEach(resourceKey => {
                       assignment.resources = assignment.resources.concat(resources.filter(resource => resource.$key == resourceKey));
                     });
-
                   });  
-
                 });  
-
-                return {
-                  'persons': persons,
-                  'assignments': assignments,
-                  'resources': resources
-                };            
+                Object.assign(data, {persons, assignments, resources});
               });
-
           }); 
-
       });
-      
+    
+      return Observable.of(data);
   }
 
   addContact(data): void {
@@ -88,14 +80,8 @@ export class ContactsService {
   getContacts(): Observable<object[]> {
     let persons: object[] = [];
     this.getData()
-      .subscribe((data) => {
-        data.subscribe((data) => {
-          data.subscribe((data) => {
-            data.persons.forEach(person => {
-              persons.push(person);
-            })
-          });
-        });
+      .subscribe(data => {
+        Object.assign(persons, data.persons);
       });
 
     return Observable.of(persons);
@@ -104,16 +90,12 @@ export class ContactsService {
   getContact(contactKey: string): Observable<object> {
     let contact: object = {};
     this.getData()
-      .subscribe((data) => {
-        data.subscribe((data) => {
-          data.subscribe((data) => {
-            data.persons.forEach(_contact => {
-              if (_contact.$key == contactKey) {
-                Object.assign(contact, _contact);
-              }
-            })
+      .subscribe(data => {
+          data.persons.forEach(_contact => {
+            if (_contact.$key == contactKey) {
+              Object.assign(contact, _contact);
+            }
           });
-        });
       });
 
     return Observable.of(contact);

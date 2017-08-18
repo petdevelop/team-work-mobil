@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Contact Detail</ion-title>
+    <ion-title>{{ contact.firstName }} {{ contact.lastName }}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -10,103 +10,39 @@
             Resources
         </ion-list-header>
 
-        <ion-item-group>
+        <ion-item-divider color="light" *ngIf="!contact.assignments || contact.assignments.length == 0 ">
+            &nbsp;
+        </ion-item-divider>
+
+        <ion-item-group *ngFor="let assignment of contact.assignments">
             <ion-item-divider color="light">
-                2017-11-30
-                <ion-icon name='md-done-all' item-end></ion-icon>
+                {{ assignment.startDate | date:'mediumDate'}}
+                <ion-icon name='md-done-all' 
+                    item-end [color]="assignment.isReady ? 'danger' : 'dark'"
+                    >
+                </ion-icon>
             </ion-item-divider>
-            <ion-item-sliding>
-                
-                <ion-item>
-                    <ion-icon name='ios-book' item-start></ion-icon>
-                    <h2 [innerHtml]="'Como ser como Rich deVos'"></h2>
-                    <p [innerHtml]="'Unknown'"></p>
-                </ion-item>
-
-                <ion-item-options side="right">
-                    <button ion-button color="light">
-                        <ion-icon name="md-trash"></ion-icon>
-                    </button>
-                    <button ion-button color="light">
-                        <ion-icon name="md-create"></ion-icon>
-                    </button>
-                </ion-item-options>
-                
-            </ion-item-sliding>
-            <ion-item-sliding>
-                
-                <ion-item>
-                    <ion-icon name='ios-book' item-start></ion-icon>
-                    <h2 [innerHtml]="'Como ser como Rich deVos'"></h2>
-                    <p [innerHtml]="'Unknown'"></p>
-                </ion-item>
-
-                <ion-item-options side="right">
-                    <button ion-button color="light">
-                        <ion-icon name="md-trash"></ion-icon>
-                    </button>
-                    <button ion-button color="light">
-                        <ion-icon name="md-create"></ion-icon>
-                    </button>
-                </ion-item-options>
-                
-            </ion-item-sliding>
+            <ion-item *ngFor="let resource of assignment.resources">
+                <ion-icon [name]="resource.type == 'disc' ? 'ios-disc' : 'ios-book'" item-start></ion-icon>
+                <h2 [innerHtml]="resource.name"></h2>
+                <p [innerHtml]="resource.author"></p>
+            </ion-item>
         </ion-item-group>
         
-        <ion-item-group>
-            <ion-item-divider color="light">
-                2017-12-31
-                <ion-icon name='md-done-all' item-end></ion-icon>
-            </ion-item-divider>
-            <ion-item-sliding>
-                
-                <ion-item>
-                    <ion-icon name='ios-book' item-start></ion-icon>
-                    <h2 [innerHtml]="'Como ser como Rich deVos'"></h2>
-                    <p [innerHtml]="'Unknown'"></p>
-                </ion-item>
-
-                <ion-item-options side="right">
-                    <button ion-button color="light">
-                        <ion-icon name="md-trash"></ion-icon>
-                    </button>
-                    <button ion-button color="light">
-                        <ion-icon name="md-create"></ion-icon>
-                    </button>
-                </ion-item-options>
-                
-            </ion-item-sliding>
-        </ion-item-group>
-
         <ion-list-header>
             Following
         </ion-list-header>
 
         <ion-item-group>
+            <ion-item-divider color="light">
+                &nbsp;
+            </ion-item-divider>
             <ion-item-sliding>
                 
                 <ion-item>
                     <ion-icon name='ios-book' item-start></ion-icon>
                     <h2 [innerHtml]="'BBQ en mi casa'"></h2>
                     <p [innerHtml]="'2017-11-30'"></p>
-                </ion-item>
-
-                <ion-item-options side="right">
-                    <button ion-button color="light">
-                        <ion-icon name="md-trash"></ion-icon>
-                    </button>
-                    <button ion-button color="light">
-                        <ion-icon name="md-create"></ion-icon>
-                    </button>
-                </ion-item-options>
-                
-            </ion-item-sliding>
-            <ion-item-sliding>
-                
-                <ion-item>
-                    <ion-icon name='ios-book' item-start></ion-icon>
-                    <h2 [innerHtml]="'Reunion en su casa'"></h2>
-                    <p [innerHtml]="'2017-12-31'"></p>
                 </ion-item>
 
                 <ion-item-options side="right">

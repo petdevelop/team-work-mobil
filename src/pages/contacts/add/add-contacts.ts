@@ -5,14 +5,6 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 import { AcctionType } from '../../../common/enum-types';
 
-/**
- * Generated class for the ContactsPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
-
-
 @Component({
   selector: 'add-contacts',
   templateUrl: 'add-contacts.html'
