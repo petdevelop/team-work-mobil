@@ -18,8 +18,8 @@ export class DetailContactsPage {
   }
 
   ionViewDidLoad() {
-    this.contactsService.getContact(this.navParams.data) 
-      .subscribe((contact) => {
+    this.contactsService.getContact(this.navParams.data)
+      .subscribe(contact => {
           this.contact = contact;
       }); 
   }

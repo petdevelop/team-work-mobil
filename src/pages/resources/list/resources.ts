@@ -16,7 +16,7 @@ import { AddResourcesPage } from '../add/add-resources';
 })
 export class ResourcesPage {
 
-  private resources: any[];
+  private resources: Object[];
   addResourcesPage = AddResourcesPage;
 
   constructor(
@@ -26,14 +26,8 @@ export class ResourcesPage {
   }
 
   ionViewDidLoad() {
-    this.ResourcesService.getData()
-      .subscribe((data) => {
-        data.subscribe((data) => {
-          data.subscribe((data) => {
-            this.resources = data.resources;
-          });
-        });
-      });
+    this.ResourcesService.getResources()
+      .subscribe(resources => this.resources = resources);
   }
 
   deleteResource(key: string): void {

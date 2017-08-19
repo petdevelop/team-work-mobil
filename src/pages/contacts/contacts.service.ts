@@ -21,11 +21,9 @@ export class ContactsService {
     });
   }
 
-  getData(): Observable<any> {
-    let data: any = {};
-
-    this.db.list(environment.dbKeys.personPaths)
-      .subscribe(persons => {
+  getContacts(): Observable<any> {
+    return this.db.list(environment.dbKeys.personPaths)
+      .map(persons => {
 
         this.db.list(environment.dbKeys.assignmentPaths)
           .subscribe(assignments => {
@@ -54,13 +52,11 @@ export class ContactsService {
                     });
                   });  
                 });  
-                
-                Object.assign(data, {persons, assignments, resources});
               });
           }); 
-      });
-    
-      return Observable.of(data);
+      
+      return persons;
+    });
   }
 
   addContact(data): void {
@@ -78,28 +74,9 @@ export class ContactsService {
     itemObservable.remove(key);
   }
 
-  getContacts(): Observable<object[]> {
-    let persons: object[] = [];
-    this.getData()
-      .subscribe(data => {
-        Object.assign(persons, data.persons);
-      });
-
-    return Observable.of(persons);
-  }
-  
-  getContact(contactKey: string): Observable<object> {
-    let contact: object = {};
-    this.getData()
-      .subscribe(data => {
-          data.persons.forEach(_contact => {
-            if (_contact.$key == contactKey) {
-              return Object.assign(contact, _contact);
-            }
-          });
-      });
-
-    return Observable.of(contact);
+  getContact(contactKey: string): Observable<Object> {
+    return this.getContacts()
+      .map(contacts => contacts.filter(contact => contact.$key == contactKey)[0])
   }
 
   pickUpResource(assignmentKey: string): void {
