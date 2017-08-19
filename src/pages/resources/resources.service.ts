@@ -21,11 +21,6 @@ export class ResourcesService {
     });
   }
 
-  pickUpResource(assignmentKey: string): void {
-    let itemObservable: FirebaseListObservable<any> = this.db.list(environment.dbKeys.assignmentPaths);
-    itemObservable.update(assignmentKey, {'pickedUp': new Date()});
-  }
-
   getData(): Observable<any> {
     
     return this.db.list(environment.dbKeys.personPaths)

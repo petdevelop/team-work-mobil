@@ -19,7 +19,7 @@
                 {{ assignment.startDate | date:'mediumDate'}}
                 <ion-icon name='md-done-all' 
                     item-end [color]="assignment.isReady ? 'danger' : 'dark'"
-                    >
+                    (click)="showConfirm(assignment.$key)">
                 </ion-icon>
             </ion-item-divider>
             <ion-item *ngFor="let resource of assignment.resources">

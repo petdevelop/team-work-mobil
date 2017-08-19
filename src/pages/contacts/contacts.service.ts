@@ -54,6 +54,7 @@ export class ContactsService {
                     });
                   });  
                 });  
+                
                 Object.assign(data, {persons, assignments, resources});
               });
           }); 
@@ -93,12 +94,17 @@ export class ContactsService {
       .subscribe(data => {
           data.persons.forEach(_contact => {
             if (_contact.$key == contactKey) {
-              Object.assign(contact, _contact);
+              return Object.assign(contact, _contact);
             }
           });
       });
 
     return Observable.of(contact);
+  }
+
+  pickUpResource(assignmentKey: string): void {
+    let itemObservable: FirebaseListObservable<any> = this.db.list(environment.dbKeys.assignmentPaths);
+    itemObservable.update(assignmentKey, {'pickedUp': new Date()});
   }
 
 }
