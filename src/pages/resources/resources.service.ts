@@ -25,38 +25,39 @@ export class ResourcesService {
     return this.db.list(environment.dbKeys.resourcePaths)
   }
 
-  // getAvailableResources(personKey): Observable<any> {
-  //   return this.db.list(environment.dbKeys.resourcePaths)
-  //     .map(resources => {
+  getAvailableResources(personKey): Observable<any> {
+    return this.db.list(environment.dbKeys.resourcePaths)
+      .map(resources => {
 
-  //       return this.db.list(environment.dbKeys.assignmentPaths)
-  //         .map(assignments => {
-  //           // get the list of unavailable resources
-  //           let unAvailableResourceKeys: any[] = [];
-  //           assignments.forEach(element => {
+        this.db.list(environment.dbKeys.assignmentPaths)
+          .subscribe(assignments => {
+            // get the list of unavailable resources
+            let unAvailableResourceKeys: any[] = [];
+            assignments.forEach(assignment => {
 
-  //             if (! element.pickedUp) {
-  //               unAvailableResourceKeys = unAvailableResourceKeys.concat(element.resourceKeys);
-  //             }
-              
-  //             resources = resources.filter(e => unAvailableResourceKeys.indexOf(e.$key) == -1);
-              
-  //             // check if the resource was previously borrowed
-  //             if (element.personKey == personKey) {
-  //               resources = resources.map(resource => {
-  //                 if (element.resourceKeys.filter(e => e == resource.$key).length > 0) {
-  //                   resource.borrowed = true;
-  //                 }
-  //                 return resource;
-  //               });
-  //             }
-  //           });
+              if (! assignment.pickedUp) {
+                unAvailableResourceKeys = unAvailableResourceKeys.concat(assignment.resourceKeys);
+              }
+              // check if the resource was previously borrowed
+              if (assignment.personKey == personKey) {
+                resources.forEach(resource => {
+                  if (assignment.resourceKeys.filter(resourceKey => resourceKey == resource.$key).length > 0) {
+                    resource.borrowed = true;
+                  }
+                });
+              }
+            });
+            // remove unavailable resources from list
+            resources.forEach((item, pos) => {
+              if (unAvailableResourceKeys.indexOf(item.$key) != -1) {
+                return resources.splice(pos, 1);
+              }
+            });
+          });
 
-  //           return resources;
-  //         });
-  //     });
-
-  // }
+          return resources;
+      });
+  }
 
   addResource(resource: any): void {
     let itemObservable: FirebaseListObservable<any> = this.db.list(environment.dbKeys.resourcePaths);

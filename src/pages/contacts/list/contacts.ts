@@ -10,7 +10,7 @@ import { DetailContactsPage } from '../detail/detail-contacts';
 })
 export class ContactsPage {
 
-  private persons: any[];
+  private contacts: any[];
   addContactsPage = AddContactsPage;
   detailContactsPage = DetailContactsPage;
 
@@ -18,16 +18,11 @@ export class ContactsPage {
       public navCtrl: NavController, 
       public navParams: NavParams,
       public contactsService: ContactsService) {
-      
   }
 
   ionViewDidLoad() {
     this.contactsService.getContacts()
-      .subscribe(persons => {
-        this.persons = persons;
-
-        // console.log(this.persons);
-      });
+      .subscribe(contacts => {this.contacts = contacts; console.log(contacts)});
   }
 
   deleteContact(key: string): void {

@@ -16,7 +16,8 @@
 
         <ion-item-group *ngFor="let assignment of contact.assignments">
             <ion-item-divider color="light">
-                {{ assignment.startDate | date:'mediumDate'}}
+                <h2> Starting on: {{ assignment.startDate | date:'mediumDate'}}</h2>
+                <p>Until: {{ assignment.startDate | date:'mediumDate'}}</p>
                 <ion-icon name='md-done-all' 
                     item-end [color]="assignment.isReady ? 'danger' : 'dark'"
                     (click)="showConfirm(assignment.$key)">
@@ -59,11 +60,10 @@
 
     </ion-list>
 
-    <ion-fab right bottom>
+    <ion-fab right bottom #fab>
         <button ion-fab color="light"><ion-icon name="md-add"></ion-icon></button>
         <ion-fab-list side="top">
-            <button ion-fab><ion-icon name="ios-book"></ion-icon></button>
-            <button ion-fab><ion-icon name="ios-disc"></ion-icon></button>
+            <button ion-fab (click)="showAssignResource(contact.$key)"><ion-icon name="md-albums"></ion-icon></button>
             <button ion-fab><ion-icon name="md-checkmark"></ion-icon></button>
         </ion-fab-list>
     </ion-fab>

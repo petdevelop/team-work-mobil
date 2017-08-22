@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Assign Resource
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()"><span ion-text color="primary">Cancel</span></button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+      <ion-list>
+        <ion-item>
+            <ion-label>Pick up date</ion-label>
+            <ion-datetime [displayFormat]="mediumDate" [(ngModel)]="endDate"
+                [min]="minDate" [max]="maxDate"></ion-datetime>
+        </ion-item>
+
+        <ion-item-divider color="light">
+           Available resources
+        </ion-item-divider>
+
+        <ion-item *ngFor="let availableResource of availableResources">
+            <ion-icon [name]="availableResource.type == 'disc' ? 'ios-disc' : 'ios-book'" item-start></ion-icon>
+            <ion-label [color]="availableResource.borrowed ? 'danger' : 'dark'">
+                <h2 [innerHtml]="availableResource.name"></h2>
+                <p [innerHtml]="availableResource.author || 'Unknown'"></p>
+            </ion-label>
+            <ion-toggle [(ngModel)]="availableResource.active" color="dark"></ion-toggle> 
+        </ion-item>
+
+        <ion-fab right bottom>
+            <button ion-fab color="light" (click)="submit()" 
+                [navPush]="addResourcesPage" [disabled]="disableSubmit()">
+                <ion-icon name="md-send"></ion-icon>
+            </button>
+        </ion-fab>
+
+    </ion-list>
+</ion-content>

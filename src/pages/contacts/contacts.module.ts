@@ -4,22 +4,26 @@ import { ContactsPage } from './list/contacts';
 import { AddContactsPage } from './add/add-contacts';
 import { ContactsService } from './contacts.service';
 import { DetailContactsPage } from './detail/detail-contacts';
+import { AssignResources } from './assign-resources/assign-resources';
 
 @NgModule({
   declarations: [
     ContactsPage,
     AddContactsPage,
-    DetailContactsPage
+    DetailContactsPage,
+    AssignResources
   ],
   imports: [
     IonicPageModule.forChild(ContactsPage),
     IonicPageModule.forChild(AddContactsPage),
-    IonicPageModule.forChild(DetailContactsPage)
+    IonicPageModule.forChild(DetailContactsPage),
+    IonicPageModule.forChild(AssignResources)
   ],
   entryComponents: [
     ContactsPage,
     AddContactsPage,
-    DetailContactsPage
+    DetailContactsPage,
+    AssignResources
   ],
   providers: [ContactsService]
 })

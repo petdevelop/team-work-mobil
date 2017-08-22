@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, NavParams, ModalController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { ContactsService } from '../contacts.service';
+import { AssignResources } from '../assign-resources/assign-resources';
 
 @Component({
   selector: 'detail-contacts',
@@ -9,12 +10,15 @@ import { ContactsService } from '../contacts.service';
 })
 export class DetailContactsPage {
   private contact: object = {};
+  @ViewChild('fab') fab; 
 
   constructor(
       public navCtrl: NavController, 
       public navParams: NavParams,
       public contactsService: ContactsService,
-      public alertCtrl: AlertController) {
+      public alertCtrl: AlertController,
+      public modalCtrl: ModalController,
+    ) {
   }
 
   ionViewDidLoad() {
@@ -37,6 +41,13 @@ export class DetailContactsPage {
         }]
     });
     confirm.present();
+  }
+
+  showAssignResource(contactKey: string) {
+    let assignResourcesModal = this.modalCtrl.create(AssignResources, { 'contactKey': contactKey });
+    assignResourcesModal.present();
+
+    this.fab.close();
   }
 
 }
